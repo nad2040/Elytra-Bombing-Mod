@@ -1,8 +1,12 @@
-# Fabric Example Mod
+# Elytra Bombing Mod
 
 ## Setup
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+When flying:
+- if you hold a tnt and a flint and steel in your main and off hands
+  - Right-clicking will use the flint and steel and summon a primed tnt with the velocity of the player * 1.2
+- if you hold just an anvil and no item in your other hand
+  - Right-clicking will summon an anvil falling block with the velocity of the player * 1.2
 
 ## License
 
