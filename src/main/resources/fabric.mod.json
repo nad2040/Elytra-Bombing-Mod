@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "elytrabombing",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Elytra Bombing",
+  "description": "Drop TNT or anvils when flying",
   "authors": [
-    "Me!"
+    "nad2040"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "",
+    "sources": "https://github.com/nad2040/Elytra-Bombing-Mod"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/elytrabombing/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.nad2040.elytrabombing.ElytraBombingMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "elytrabombing.mixins.json"
   ],
 
   "depends": {
@@ -33,6 +33,6 @@
     "java": ">=17"
   },
   "suggests": {
-    "another-mod": "*"
+    "another-mod": ""
   }
 }
