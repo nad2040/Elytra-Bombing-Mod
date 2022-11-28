@@ -12,6 +12,10 @@ When flying:
 
 I've actually had this idea ever since elytras were first released back in 2016. I remember commenting in a cubfan135 video about it and he actually read and replied to my comment, though I don't recall which video anymore.
 
+## Modrinth Link
+
+https://modrinth.com/mod/elytra-bombing
+
 ## License
 
 This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
