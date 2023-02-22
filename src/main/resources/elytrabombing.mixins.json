@@ -6,8 +6,6 @@
   "mixins": [
     "ItemMixin"
   ],
-  "client": [
-  ],
   "injectors": {
     "defaultRequire": 1
   }
