@@ -31,7 +31,7 @@ public class ItemMixin {
 			ElytraBombingMod.LOGGER.info("right click action detected");
 			ItemStack item = user.getStackInHand(hand);
 			Hand other_hand = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
-			Vec3d position,velocity;
+			Vec3d position, velocity;
 			if (item.isOf(Items.FLINT_AND_STEEL)) {
 				ItemStack tnt = user.getStackInHand(other_hand);
 				if (!tnt.isOf(Items.TNT)) cir.setReturnValue(TypedActionResult.pass(user.getStackInHand(hand)));
@@ -46,17 +46,20 @@ public class ItemMixin {
 					item.damage(1, user, p -> p.sendToolBreakStatus(hand));
 					tnt.decrement(1);
 				}
-				user.incrementStat(Stats.USED.getOrCreateStat((FlintAndSteelItem)(Object)this));
+				user.incrementStat(Stats.USED.getOrCreateStat((FlintAndSteelItem) (Object) this));
 				cir.setReturnValue(TypedActionResult.success(user.getStackInHand(hand), world.isClient()));
-			}
-			else if (item.isOf(Items.ANVIL) || item.isOf(Items.CHIPPED_ANVIL) || item.isOf(Items.DAMAGED_ANVIL)) {
-				if (!user.getStackInHand(other_hand).isEmpty()) cir.setReturnValue(TypedActionResult.pass(user.getStackInHand(hand)));
+			} else if (item.isOf(Items.ANVIL) || item.isOf(Items.CHIPPED_ANVIL) || item.isOf(Items.DAMAGED_ANVIL)) {
+				if (!user.getStackInHand(other_hand).isEmpty())
+					cir.setReturnValue(TypedActionResult.pass(user.getStackInHand(hand)));
 				position = user.getPos();
 				velocity = user.getVelocity();
 				FallingBlockEntity anvilEntity = null;
-				if (item.isOf(Items.ANVIL)) anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.ANVIL.getDefaultState());
-				else if (item.isOf(Items.CHIPPED_ANVIL)) anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.CHIPPED_ANVIL.getDefaultState());
-				else if (item.isOf(Items.DAMAGED_ANVIL)) anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.DAMAGED_ANVIL.getDefaultState());
+				if (item.isOf(Items.ANVIL))
+					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.ANVIL.getDefaultState());
+				else if (item.isOf(Items.CHIPPED_ANVIL))
+					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.CHIPPED_ANVIL.getDefaultState());
+				else if (item.isOf(Items.DAMAGED_ANVIL))
+					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.DAMAGED_ANVIL.getDefaultState());
 				assert anvilEntity != null;
 				anvilEntity.setVelocity(velocity.multiply(1.2));
 				world.spawnEntity(anvilEntity);
@@ -66,6 +69,5 @@ public class ItemMixin {
 				}
 			}
 		}
-		cir.setReturnValue(TypedActionResult.pass(user.getStackInHand(hand)));
 	}
 }
