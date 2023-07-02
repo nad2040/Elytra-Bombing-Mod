@@ -1,6 +1,8 @@
 package com.nad2040.elytrabombing;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +12,10 @@ public class ElytraBombingMod implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
     public static final String MODID = "elytrabombing";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+
+	public static Vec3i VEC3D_TO_3I(Vec3d vec) {
+		return new Vec3i((int) vec.x, (int) vec.y, (int) vec.z);
+	}
 
 	@Override
 	public void onInitialize() {

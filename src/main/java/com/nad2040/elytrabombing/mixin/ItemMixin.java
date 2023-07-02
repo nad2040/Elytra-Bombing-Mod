@@ -55,11 +55,11 @@ public class ItemMixin {
 				velocity = user.getVelocity();
 				FallingBlockEntity anvilEntity = null;
 				if (item.isOf(Items.ANVIL))
-					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.ANVIL.getDefaultState());
+					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(ElytraBombingMod.VEC3D_TO_3I(position)), Blocks.ANVIL.getDefaultState());
 				else if (item.isOf(Items.CHIPPED_ANVIL))
-					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.CHIPPED_ANVIL.getDefaultState());
+					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(ElytraBombingMod.VEC3D_TO_3I(position)), Blocks.CHIPPED_ANVIL.getDefaultState());
 				else if (item.isOf(Items.DAMAGED_ANVIL))
-					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(position), Blocks.DAMAGED_ANVIL.getDefaultState());
+					anvilEntity = FallingBlockEntity.spawnFromBlock(world, new BlockPos(ElytraBombingMod.VEC3D_TO_3I(position)), Blocks.DAMAGED_ANVIL.getDefaultState());
 				assert anvilEntity != null;
 				anvilEntity.setVelocity(velocity.multiply(1.2));
 				world.spawnEntity(anvilEntity);
