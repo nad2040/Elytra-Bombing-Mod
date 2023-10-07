@@ -4,6 +4,7 @@
   "package": "com.nad2040.elytrabombing.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "FallingBlockEntityMixin",
     "ItemMixin"
   ],
   "injectors": {
