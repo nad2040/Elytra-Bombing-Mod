@@ -8,6 +8,7 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,10 @@ public class ElytraBombingMod implements ModInitializer {
 		// Proceed with mild caution.
 
         LOGGER.info("Elytra Bombing Mod initialized!");
+	}
+
+	public static BlockPos VEC_3D_TO_POS(Vec3d vec3d) {
+		return new BlockPos(vec3d.x, vec3d.y, vec3d.z);
 	}
 
 	public static void log(Hand hand, Hand other_hand, ItemStack usedItemStack, ItemStack otherItemStack, Vec3d position, Vec3d velocity) {
