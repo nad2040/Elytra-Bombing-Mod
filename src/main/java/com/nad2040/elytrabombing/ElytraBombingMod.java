@@ -35,7 +35,7 @@ public class ElytraBombingMod implements ModInitializer {
 	}
 
 	public static BlockPos VEC_3D_TO_POS(Vec3d vec3d) {
-		return new BlockPos(vec3d.x, vec3d.y, vec3d.z);
+		return new BlockPos((int)Math.round(vec3d.x), (int)Math.round(vec3d.y), (int)Math.round(vec3d.z));
 	}
 
 	public static void log(Hand hand, Hand other_hand, ItemStack usedItemStack, ItemStack otherItemStack, Vec3d position, Vec3d velocity) {

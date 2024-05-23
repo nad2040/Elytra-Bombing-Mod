@@ -4,6 +4,7 @@ import com.nad2040.elytrabombing.ElytraBombingMod;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,7 +41,7 @@ public class ItemMixin {
 				world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f);
 				world.emitGameEvent(user, GameEvent.PRIME_FUSE, position);
 				if (!user.getAbilities().creativeMode) {
-					usedItemStack.damage(1, user, p -> p.sendToolBreakStatus(hand));
+					usedItemStack.damage(1, user, EquipmentSlot.MAINHAND);
 					otherItemStack.decrement(1);
 				}
 				user.incrementStat(Stats.USED.getOrCreateStat((FlintAndSteelItem) (Object) this));
