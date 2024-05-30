@@ -44,7 +44,7 @@ public class ItemMixin {
 				}
 				user.incrementStat(Stats.USED.getOrCreateStat((FlintAndSteelItem) (Object) this));
 				cir.setReturnValue(TypedActionResult.success(user.getStackInHand(hand), world.isClient()));
-			} else if ((usedItemStack.isOf(Items.ANVIL) || usedItemStack.isOf(Items.CHIPPED_ANVIL) || usedItemStack.isOf(Items.DAMAGED_ANVIL)) && otherItemStack.isEmpty()) {
+			} else if (usedItemStack.isOf(Items.ANVIL) || usedItemStack.isOf(Items.CHIPPED_ANVIL) || usedItemStack.isOf(Items.DAMAGED_ANVIL)) {
 				FallingBlockEntity anvilEntity = new FallingBlockEntity(EntityType.FALLING_BLOCK, world);
 				anvilEntity.timeFalling = 1; // allows anvils to work on 1.18* by avoiding `(this.timeFalling++ == 0)`
 				anvilEntity.setPosition(position);
