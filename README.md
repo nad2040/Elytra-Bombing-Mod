@@ -5,7 +5,7 @@
 When flying:
 - if you hold a tnt and a flint and steel in your main and off hands
   - Right-clicking will use the flint and steel and summon a primed tnt with the velocity of the player * 1.2
-- if you hold just an anvil and no item in your other hand
+- if you hold an anvil
   - Right-clicking will summon an anvil falling block with the velocity of the player * 1.2
 
 ## Modrinth Link
