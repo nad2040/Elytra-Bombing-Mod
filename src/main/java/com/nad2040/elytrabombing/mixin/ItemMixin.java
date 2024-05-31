@@ -1,7 +1,6 @@
 package com.nad2040.elytrabombing.mixin;
 
 import com.nad2040.elytrabombing.ElytraBombingMod;
-import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,7 +13,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -38,16 +36,18 @@ public class ItemMixin {
 				TntEntity tntEntity = new TntEntity(world, position.x, position.y, position.z, user);
 				tntEntity.setVelocity(velocity.multiply(1.2));
 				world.spawnEntity(tntEntity);
-				world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f);
-				world.emitGameEvent(user, GameEvent.PRIME_FUSE, position);
+				// changed methods signatures to ones that are also supported in 1.18*
+				world.playSound(tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
+				user.emitGameEvent(GameEvent.PRIME_FUSE, tntEntity);
 				if (!user.getAbilities().creativeMode) {
 					usedItemStack.damage(1, user, EquipmentSlot.MAINHAND);
 					otherItemStack.decrement(1);
 				}
 				user.incrementStat(Stats.USED.getOrCreateStat((FlintAndSteelItem) (Object) this));
 				cir.setReturnValue(TypedActionResult.success(user.getStackInHand(hand), world.isClient()));
-			} else if ((usedItemStack.isOf(Items.ANVIL) || usedItemStack.isOf(Items.CHIPPED_ANVIL) || usedItemStack.isOf(Items.DAMAGED_ANVIL)) && otherItemStack.isEmpty()) {
+			} else if (usedItemStack.isOf(Items.ANVIL) || usedItemStack.isOf(Items.CHIPPED_ANVIL) || usedItemStack.isOf(Items.DAMAGED_ANVIL)) {
 				FallingBlockEntity anvilEntity = new FallingBlockEntity(EntityType.FALLING_BLOCK, world);
+				anvilEntity.timeFalling = 1; // allows anvils to work on 1.18* by avoiding `(this.timeFalling++ == 0)`
 				anvilEntity.setPosition(position);
 				anvilEntity.setVelocity(velocity.multiply(1.2));
 				if (usedItemStack.isOf(Items.ANVIL)) 		 ((ElytraBombingMod.FBEInterface) anvilEntity).setBlock(Blocks.ANVIL.getDefaultState());
@@ -55,7 +55,7 @@ public class ItemMixin {
 				if (usedItemStack.isOf(Items.DAMAGED_ANVIL)) ((ElytraBombingMod.FBEInterface) anvilEntity).setBlock(Blocks.DAMAGED_ANVIL.getDefaultState());
 				anvilEntity.setFallingBlockPos(anvilEntity.getBlockPos());
 				world.spawnEntity(anvilEntity);
-				world.playSound(null, anvilEntity.getX(), anvilEntity.getY(), anvilEntity.getZ(), SoundEvents.BLOCK_ANVIL_FALL, SoundCategory.BLOCKS, 1.0f, 1.0f);
+				world.playSound(anvilEntity.getX(), anvilEntity.getY(), anvilEntity.getZ(), SoundEvents.BLOCK_ANVIL_FALL, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
 				if (!user.getAbilities().creativeMode) {
 					usedItemStack.decrement(1);
 				}
