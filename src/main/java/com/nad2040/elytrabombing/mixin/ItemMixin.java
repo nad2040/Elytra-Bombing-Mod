@@ -3,6 +3,7 @@ package com.nad2040.elytrabombing.mixin;
 import com.nad2040.elytrabombing.ElytraBombingMod;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.player.PlayerEntity;
