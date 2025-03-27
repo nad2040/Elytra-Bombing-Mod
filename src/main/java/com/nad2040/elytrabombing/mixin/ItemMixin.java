@@ -52,6 +52,7 @@ public class ItemMixin {
 				anvilEntity.timeFalling = 1;
 				anvilEntity.setPosition(position);
 				anvilEntity.setVelocity(velocity.multiply(1.2));
+				anvilEntity.setHurtEntities(1.0F, 40);
 				if (usedItemStack.isOf(Items.ANVIL)) 		 ((ElytraBombingMod.FBEInterface) anvilEntity).setBlock(Blocks.ANVIL.getDefaultState());
 				if (usedItemStack.isOf(Items.CHIPPED_ANVIL)) ((ElytraBombingMod.FBEInterface) anvilEntity).setBlock(Blocks.CHIPPED_ANVIL.getDefaultState());
 				if (usedItemStack.isOf(Items.DAMAGED_ANVIL)) ((ElytraBombingMod.FBEInterface) anvilEntity).setBlock(Blocks.DAMAGED_ANVIL.getDefaultState());
