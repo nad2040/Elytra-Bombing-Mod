@@ -11,8 +11,8 @@ import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -21,35 +21,33 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-
 @Mixin(Item.class)
 public class ItemMixin {
 	@Inject(at = @At("TAIL"), method = "use", cancellable = true)
-	public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-		ItemStack itemStack = user.getStackInHand(hand);
-		if (user.isGliding()) {
+	public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+		if (user.isFallFlying()) {
 			Hand other_hand = (hand == Hand.MAIN_HAND) ? Hand.OFF_HAND : Hand.MAIN_HAND;
 			ItemStack usedItemStack = user.getStackInHand(hand), otherItemStack = user.getStackInHand(other_hand);
 			Vec3d position = user.getPos(), velocity = user.getVelocity();
 			if (ElytraBombingMod.SHOULD_LOG && !world.isClient) {
-				ElytraBombingMod.log(hand, other_hand, usedItemStack, otherItemStack, position, velocity);
+				ElytraBombingMod.log(hand,other_hand,usedItemStack,otherItemStack,position,velocity);
 			}
 			if (usedItemStack.isOf(Items.FLINT_AND_STEEL) && otherItemStack.isOf(Items.TNT)) {
 				TntEntity tntEntity = new TntEntity(world, position.x, position.y, position.z, user);
 				tntEntity.setVelocity(velocity.multiply(1.2));
 				world.spawnEntity(tntEntity);
-				world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), 
-					SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f);
+				// changed methods signatures to ones that are also supported in 1.18*
+				world.playSound(tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
 				user.emitGameEvent(GameEvent.PRIME_FUSE, tntEntity);
 				if (!user.getAbilities().creativeMode) {
-    				itemStack.damage(1, user, EquipmentSlot.OFFHAND);
+					usedItemStack.damage(1, user, EquipmentSlot.MAINHAND);
 					otherItemStack.decrement(1);
 				}
-				user.incrementStat(Stats.USED.getOrCreateStat(Items.FLINT_AND_STEEL));
-				cir.setReturnValue(ActionResult.SUCCESS);
+				user.incrementStat(Stats.USED.getOrCreateStat((FlintAndSteelItem) (Object) this));
+				cir.setReturnValue(TypedActionResult.success(user.getStackInHand(hand), world.isClient()));
 			} else if (usedItemStack.isOf(Items.ANVIL) || usedItemStack.isOf(Items.CHIPPED_ANVIL) || usedItemStack.isOf(Items.DAMAGED_ANVIL)) {
 				FallingBlockEntity anvilEntity = new FallingBlockEntity(EntityType.FALLING_BLOCK, world);
-				anvilEntity.timeFalling = 1;
+				anvilEntity.timeFalling = 1; // allows anvils to work on 1.18* by avoiding `(this.timeFalling++ == 0)`
 				anvilEntity.setPosition(position);
 				anvilEntity.setVelocity(velocity.multiply(1.2));
 				anvilEntity.setHurtEntities(1.0F, 40);
@@ -58,12 +56,11 @@ public class ItemMixin {
 				if (usedItemStack.isOf(Items.DAMAGED_ANVIL)) ((ElytraBombingMod.FBEInterface) anvilEntity).setBlock(Blocks.DAMAGED_ANVIL.getDefaultState());
 				anvilEntity.setFallingBlockPos(anvilEntity.getBlockPos());
 				world.spawnEntity(anvilEntity);
-				world.playSound(null, anvilEntity.getX(), anvilEntity.getY(), anvilEntity.getZ(), 
-					SoundEvents.BLOCK_ANVIL_FALL, SoundCategory.BLOCKS, 1.0f, 1.0f);
+				world.playSound(anvilEntity.getX(), anvilEntity.getY(), anvilEntity.getZ(), SoundEvents.BLOCK_ANVIL_FALL, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
 				if (!user.getAbilities().creativeMode) {
 					usedItemStack.decrement(1);
 				}
-				cir.setReturnValue(ActionResult.SUCCESS);
+				cir.setReturnValue(TypedActionResult.success(user.getStackInHand(hand), world.isClient()));
 			}
 		}
 	}
